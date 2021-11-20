@@ -9,27 +9,32 @@ import {
   View,
 } from "react-native";
 import THEMES from "../../../themes";
+import useTransactionStore from "../../../stores/useTransactionStore";
 
-interface SearchbarProps {
-  onShouldOpenSortingModal: () => void;
-  onShouldFilter: (query: string) => void;
-}
+interface SearchbarProps {}
 
-const Searchbar: React.FC<SearchbarProps> = (props) => {
+const Searchbar: React.FC<SearchbarProps> = () => {
+  const filterQuery = useTransactionStore((store) => store.filterQuery);
+  const setFilterQuery = useTransactionStore((store) => store.setFilterQuery);
   const handleSubmit = (
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
   ) => {
-    props.onShouldFilter(e.nativeEvent.text);
+    setFilterQuery(e.nativeEvent.text);
   };
+
+  const showSortingModal = useTransactionStore(
+    (store) => () => store.setIsShowingSortingModal(true)
+  );
 
   return (
     <View style={styles.wrapper}>
       <TextInput
         style={styles.input}
+        value={filterQuery}
         placeholder="Cari nama, bank, atau nominal"
         onSubmitEditing={handleSubmit}
       />
-      <TouchableOpacity onPress={props.onShouldOpenSortingModal}>
+      <TouchableOpacity onPress={showSortingModal}>
         <Text style={styles.sortingButtonText}>URUTKAN</Text>
       </TouchableOpacity>
     </View>

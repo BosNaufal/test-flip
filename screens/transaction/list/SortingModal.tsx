@@ -1,23 +1,22 @@
 import React from "react";
-import {
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import useTransactionStore from "../../../stores/useTransactionStore";
 
-interface SortingModalProps {
-  onShouldClose: () => void;
-  visible: boolean;
-}
+interface SortingModalProps {}
 
-const SortingModal: React.FC<SortingModalProps> = (props) => {
+const SortingModal: React.FC<SortingModalProps> = () => {
+  const isShowingSortingModal = useTransactionStore(
+    (store) => store.isShowingSortingModal
+  );
+  const closeModal = useTransactionStore(
+    (store) => () => store.setIsShowingSortingModal(false)
+  );
+
   return (
     <Modal
       transparent={true}
-      visible={props.visible}
-      onRequestClose={props.onShouldClose}
+      visible={isShowingSortingModal}
+      onRequestClose={closeModal}
     >
       <View style={styles.modalOuter}>
         <View style={styles.modalInner}>
