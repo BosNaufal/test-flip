@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
 
 interface ListTransactionScreenProps {}
 
 const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
-  const [modalShow, setModalShow] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
   return (
     <View>
+      <Searchbar />
       <SortingModal
         visible={modalShow}
         onShouldClose={() => {
@@ -18,24 +20,6 @@ const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  modalOuter: {
-    backgroundColor: "rgba(0, 0, 0, .4)",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalInner: {
-    borderRadius: 8,
-    backgroundColor: "white",
-    width: "85%",
-    paddingVertical: 24,
-    paddingHorizontal: 24,
-    elevation: 3,
-  },
-  optionItem: {
-    marginVertical: 12,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default ListTransactionScreen;
