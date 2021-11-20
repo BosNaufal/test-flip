@@ -1,8 +1,9 @@
-import React from "react";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useMemo } from "react";
+import { Modal, StyleSheet, View } from "react-native";
 import useTransactionStore, {
   sortingAnchorOptions,
 } from "../../../stores/useTransactionStore";
+import SortingOption from "./SortingOption";
 
 interface SortingModalProps {}
 
@@ -14,14 +15,23 @@ const SortingModal: React.FC<SortingModalProps> = () => {
     (store) => () => store.setIsShowingSortingModal(false)
   );
 
+  const activeOption = useTransactionStore((store) => store.sortingAnchor);
   const setSortingAnchor = useTransactionStore(
     (store) => store.setSortingAnchor
   );
-
   const handleChooseOption = (anchor: sortingAnchorOptions | null) => () => {
     setSortingAnchor(anchor);
     closeModal();
   };
+
+  const optionsList = useMemo(
+    () =>
+      Object.keys(sortingAnchorOptions).map((key) => {
+        const option: sortingAnchorOptions = (sortingAnchorOptions as any)[key];
+        return option;
+      }),
+    []
+  );
 
   return (
     <Modal
@@ -31,26 +41,19 @@ const SortingModal: React.FC<SortingModalProps> = () => {
     >
       <View style={styles.modalOuter}>
         <View style={styles.modalInner}>
-          <TouchableOpacity
+          <SortingOption
+            checked={activeOption === null}
             onPress={handleChooseOption(null)}
-            style={styles.optionItem}
-          >
-            <Text>URUTKAN</Text>
-          </TouchableOpacity>
-          {Object.keys(sortingAnchorOptions).map((key) => {
-            const option: sortingAnchorOptions = (sortingAnchorOptions as any)[
-              key
-            ];
-            return (
-              <TouchableOpacity
-                key={key}
-                onPress={handleChooseOption(option)}
-                style={styles.optionItem}
-              >
-                <Text>{option}</Text>
-              </TouchableOpacity>
-            );
-          })}
+            label={"URUTKAN"}
+          />
+          {optionsList.map((option, index) => (
+            <SortingOption
+              key={index}
+              checked={activeOption === option}
+              onPress={handleChooseOption(option)}
+              label={option}
+            />
+          ))}
         </View>
       </View>
     </Modal>
@@ -73,9 +76,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   optionItem: {
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 6,
     paddingVertical: 6,
     paddingHorizontal: 8,
+  },
+  radio: {
+    marginRight: 10,
   },
 });
 
