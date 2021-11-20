@@ -1,19 +1,37 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import React from "react";
+import {
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputSubmitEditingEventData,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import THEMES from "../../../themes";
 
-interface SearchbarProps {}
+interface SearchbarProps {
+  onShouldOpenSortingModal: () => void;
+  onShouldFilter: (query: string) => void;
+}
 
-const Searchbar: React.FC<SearchbarProps> = () => {
+const Searchbar: React.FC<SearchbarProps> = (props) => {
+  const handleSubmit = (
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
+  ) => {
+    props.onShouldFilter(e.nativeEvent.text);
+  };
+
   return (
     <View style={styles.wrapper}>
       <TextInput
         style={styles.input}
         placeholder="Cari nama, bank, atau nominal"
+        onSubmitEditing={handleSubmit}
       />
-      <View>
+      <TouchableOpacity onPress={props.onShouldOpenSortingModal}>
         <Text style={styles.sortingButtonText}>URUTKAN</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

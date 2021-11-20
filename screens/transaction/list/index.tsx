@@ -9,7 +9,7 @@ const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   const [modalShow, setModalShow] = useState(false);
   return (
     <View style={styles.pageWrapper}>
-      <Searchbar />
+      <Searchbar onShouldFilter={() => {}} onShouldOpenSortingModal={() => {}} />
       <SortingModal
         visible={modalShow}
         onShouldClose={() => {
