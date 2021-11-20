@@ -22,6 +22,7 @@ const Searchbar: React.FC<SearchbarProps> = () => {
     setFilterQuery(e.nativeEvent.text);
   };
 
+  const sortingAnchor = useTransactionStore((store) => store.sortingAnchor);
   const showSortingModal = useTransactionStore(
     (store) => () => store.setIsShowingSortingModal(true)
   );
@@ -30,12 +31,13 @@ const Searchbar: React.FC<SearchbarProps> = () => {
     <View style={styles.wrapper}>
       <TextInput
         style={styles.input}
-        value={filterQuery}
         placeholder="Cari nama, bank, atau nominal"
         onSubmitEditing={handleSubmit}
       />
       <TouchableOpacity onPress={showSortingModal}>
-        <Text style={styles.sortingButtonText}>URUTKAN</Text>
+        <Text style={styles.sortingButtonText}>
+          {sortingAnchor === null ? "URUTKAN" : sortingAnchor}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,13 +53,15 @@ const styles = StyleSheet.create({
   },
   input: {
     paddingHorizontal: 0,
+    paddingRight: 8,
     paddingVertical: 8,
     flex: 1,
-    fontSize: 18,
+    fontSize: 16,
   },
   sortingButtonText: {
     fontWeight: "700",
     color: THEMES.colors.primary,
+    fontSize: 14,
   },
 });
 

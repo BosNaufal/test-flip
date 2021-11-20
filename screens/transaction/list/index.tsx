@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
@@ -6,16 +6,10 @@ import SortingModal from "./SortingModal";
 interface ListTransactionScreenProps {}
 
 const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
-  const [modalShow, setModalShow] = useState(false);
   return (
     <View style={styles.pageWrapper}>
-      <Searchbar onShouldFilter={() => {}} onShouldOpenSortingModal={() => {}} />
-      <SortingModal
-        visible={modalShow}
-        onShouldClose={() => {
-          setModalShow(false);
-        }}
-      />
+      <Searchbar />
+      <SortingModal />
     </View>
   );
 };
