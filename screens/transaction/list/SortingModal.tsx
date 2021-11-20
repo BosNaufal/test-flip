@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   modalInner: {
     borderRadius: 8,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     width: "85%",
     paddingVertical: 24,
     paddingHorizontal: 24,

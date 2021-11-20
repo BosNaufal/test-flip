@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Platform, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import ListTransactionScreen from "./screens/transaction/list";
+import THEMES from "./themes";
 
 export default function App() {
   return (
@@ -28,6 +29,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: THEMES.colors.background,
   },
 });

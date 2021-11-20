@@ -8,7 +8,7 @@ interface ListTransactionScreenProps {}
 const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   const [modalShow, setModalShow] = useState(false);
   return (
-    <View>
+    <View style={styles.pageWrapper}>
       <Searchbar />
       <SortingModal
         visible={modalShow}
@@ -20,6 +20,11 @@ const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  pageWrapper: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+  },
+});
 
 export default ListTransactionScreen;
