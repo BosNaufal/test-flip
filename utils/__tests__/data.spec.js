@@ -1,4 +1,4 @@
-import { createFilterListByQuery } from "utils/data";
+import { createFilterListByQuery, createSortingListByDate, createSortingListByString } from "utils/data";
 
 describe("Data Utilities Functions", () => {
   describe("createFilterListByQuery()", () => {
@@ -45,6 +45,53 @@ describe("Data Utilities Functions", () => {
       // filter by bank
       expect(filterListByQuery("Jago")).toStrictEqual([LIST[0]]);
       expect(filterListByQuery("jaGO")).toStrictEqual([LIST[0]]);
+    });
+  });
+
+  describe("createSortingListByDate()", () => {
+    const LIST = [
+      { sender: "Naufal", date: "2021-11-22 00:00:00" },
+      { sender: "Bejo", date: "2021-11-22 11:11:11" },
+      { sender: "Bambang", date: "2021-01-01 00:00:00" },
+    ];
+
+    it("sorting correctly", () => {
+      const sortByDate = createSortingListByDate(LIST, "date");
+      expect(sortByDate("DESC")).toStrictEqual([
+        LIST[1], 
+        LIST[0],
+        LIST[2],
+      ]);
+      expect(sortByDate("ASC")).toStrictEqual([
+        LIST[2],
+        LIST[0],
+        LIST[1], 
+      ]);
+    });
+  });
+
+  describe("createSortingListByString()", () => {
+    const LIST = [
+      { sender: "Naufal", date: "2021-11-22 00:00:00" },
+      { sender: "Bejo", date: "2021-11-22 11:11:11" },
+      { sender: "Bambang", date: "2021-01-01 00:00:00" },
+      { sender: "Zara", date: "2021-01-01 00:00:00" },
+    ];
+
+    it("sorting correctly", () => {
+      const sortByDate = createSortingListByString(LIST, "sender");
+      expect(sortByDate("DESC")).toStrictEqual([
+        LIST[3],
+        LIST[0],
+        LIST[1], 
+        LIST[2],
+      ]);
+      expect(sortByDate("ASC")).toStrictEqual([
+        LIST[2],
+        LIST[1], 
+        LIST[0],
+        LIST[3],
+      ]);
     });
   });
 });
