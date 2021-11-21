@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 import useTransactionStore from "stores/useTransactionStore";
 import THEMES from "themes";
@@ -22,10 +22,10 @@ const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   }, []);
 
   return (
-    <Fragment>
-      <View style={styles.pageWrapper}>
-        <Searchbar />
+    <View style={styles.pageWrapper}>
+      <Searchbar />
 
+      <View>
         {isLoading && (
           <ActivityIndicator
             style={styles.listWrapper}
@@ -35,7 +35,6 @@ const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
           />
         )}
         <FlatList
-          
           data={transactionList}
           contentContainerStyle={styles.listWrapper}
           keyExtractor={(item) => item.id}
@@ -53,18 +52,20 @@ const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
         />
       </View>
       <SortingModal />
-    </Fragment>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   pageWrapper: {
+    flex: 1,
     paddingVertical: 10,
+    paddingBottom: 0,
     paddingHorizontal: 10,
   },
   listWrapper: {
     marginTop: 10,
-    paddingBottom: 56,
+    paddingBottom: 10,
   },
 });
 

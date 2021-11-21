@@ -13,7 +13,7 @@ export default function App() {
         /* refs: https://gist.github.com/dantman/235833869dab844340ee530c1643a208 */
         //
         {
-          paddingTop: 30,
+          paddingVertical: 30,
         },
       ]}
     >
