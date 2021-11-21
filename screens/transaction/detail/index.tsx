@@ -12,6 +12,7 @@ import {
   convertToRupiahCurrency,
   ISOStringDateToLocaleDate,
 } from "utils";
+import InfoColumn from "./InfoColumn";
 
 interface TransactionDetailScreenProps
   extends NativeStackScreenProps<
@@ -31,6 +32,11 @@ const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (
   const toggleShow = () => {
     setIsShowDetail(!isShowDetail);
   };
+
+  // prettier make it broken when using template literal
+  const reciverName =
+    (data.status === "PENDING" ? "- " : "") +
+    data.beneficiary_name.toUpperCase();
 
   return (
     <View style={styles.pageWrapper}>
@@ -53,29 +59,17 @@ const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (
           {bankNameToUppercase(data.beneficiary_bank)}
         </BaseText>
         <View style={styles.infoInner}>
-          <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>
-              {data.status === "PENDING" && "- "}
-              {data.beneficiary_name.toUpperCase()}
-            </BaseText>
-            <BaseText>{data.account_number}</BaseText>
-          </View>
-          <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>NOMINAL</BaseText>
-            <BaseText>Rp {convertToRupiahCurrency(data.amount)}</BaseText>
-          </View>
-          <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>BERITA TRANSFER</BaseText>
-            <BaseText>{data.remark}</BaseText>
-          </View>
-          <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>KODE UNIK</BaseText>
-            <BaseText>{data.unique_code}</BaseText>
-          </View>
-          <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>WAKTU DIBUAT</BaseText>
-            <BaseText>{ISOStringDateToLocaleDate(data.created_at)}</BaseText>
-          </View>
+          <InfoColumn wider title={reciverName} content={data.account_number} />
+          <InfoColumn
+            title={"NOMINAL"}
+            content={`Rp ${convertToRupiahCurrency(data.amount)}`}
+          />
+          <InfoColumn wider title={"BERITA TRANSFER"} content={data.remark} />
+          <InfoColumn title={"KODE UNIK"} content={data.unique_code} />
+          <InfoColumn
+            title={"WAKTU DIBUAT"}
+            content={ISOStringDateToLocaleDate(data.created_at)}
+          />
         </View>
       </View>
     </View>
@@ -119,13 +113,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     flexDirection: "row",
     flexWrap: "wrap",
-  },
-  infoColumn: {
-    width: "50%",
-    marginBottom: 20,
-  },
-  titleText: {
-    fontWeight: "700",
   },
 });
 
