@@ -1,50 +1,42 @@
-import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+} from "react-native";
+import useTransactionStore from "../../../stores/useTransactionStore";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
 import TransactionItem, { transactionStatus } from "./TransactionItem";
 
 interface ListTransactionScreenProps {}
 
-const DATA = [
-  {
-    status: "PENDING",
-    id: "string1",
-    senderBank: "Permata",
-    recieverBank: "BNI",
-    recieverName: "SYIFA SALSABYLA",
-    amount: 10028,
-    createdAt: "2021-11-17 07:49:54",
-  },
-  {
-    status: "SUCCESS",
-    id: "string2",
-    senderBank: "Permata",
-    recieverBank: "BNI",
-    recieverName: "SYIFA SALSABYLA",
-    amount: 10028,
-    createdAt: "2021-11-17 07:49:54",
-  },
-];
-
 const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
+  const transactionList = useTransactionStore((store) => store.transactionList);
+  const loadTransactionList = useTransactionStore(
+    (store) => store.loadTransactionList
+  );
+  useEffect(() => {
+    loadTransactionList();
+  }, []);
+
   return (
     <View style={styles.pageWrapper}>
       <Searchbar />
       <SortingModal />
       <FlatList
-        data={DATA}
+        data={transactionList}
         style={styles.listWrapper}
         renderItem={({ item }) => (
           <TransactionItem
             key={item.id}
-            status={item.status as transactionStatus}
             id={item.id}
-            senderBank={item.senderBank}
-            recieverBank={item.recieverBank}
-            recieverName={item.recieverName}
+            status={item.status as transactionStatus}
+            senderBank={item.sender_bank}
+            recieverBank={item.beneficiary_bank}
+            recieverName={item.beneficiary_name}
             amount={item.amount}
-            createdAt={item.createdAt}
+            createdAt={item.created_at}
           />
         )}
       />
