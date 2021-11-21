@@ -44,9 +44,15 @@ const useTransactionStore = create<ITransactionStore>(set => ({
 
 export const transactionStoreSelector = {
   filteredListSelector: (state: ITransactionStore) => {
-    const filterListByQuery = createFilterListByQuery(state.transactionList)
+    const ANCHOR_KEYS: (keyof TransactionItemServer)[] = [
+      "amount",
+      "sender_bank",
+      "beneficiary_name",
+      "beneficiary_bank",
+    ]
+    const filterListByQuery = createFilterListByQuery(state.transactionList, ANCHOR_KEYS)
     return filterListByQuery(state.filterQuery)
-  } 
+  }
 }
 
 
