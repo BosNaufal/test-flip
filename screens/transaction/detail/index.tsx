@@ -2,14 +2,20 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import BaseText from "components/BaseText";
 import THEMES from "themes";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { TransactionStackParamsList } from "screens/types";
 
-interface TransactionDetailScreenProps {}
+interface TransactionDetailScreenProps
+  extends NativeStackScreenProps<
+    TransactionStackParamsList,
+    "TransactionDetail"
+  > {}
 
-const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = () => {
+const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (props) => {
   return (
     <View style={styles.pageWrapper}>
       <View style={styles.header}>
-        <BaseText style={styles.boldText}>ID TRANSAKSI: #FT16526923</BaseText>
+        <BaseText style={styles.boldText}>ID TRANSAKSI: #{props.route.params.id}</BaseText>
       </View>
       <View style={[styles.header, styles.spaceBetween]}>
         <BaseText style={styles.boldText}>DETAIL TRANSAKSI</BaseText>

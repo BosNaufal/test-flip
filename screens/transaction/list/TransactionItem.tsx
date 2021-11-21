@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import BaseText from "components/BaseText";
 import THEMES from "themes";
 import {
@@ -11,6 +11,7 @@ import {
 export type transactionStatus = "PENDING" | "SUCCESS";
 
 interface TransactionItemProps {
+  onPress: () => void;
   status: transactionStatus;
   id: string;
   senderBank: string;
@@ -22,7 +23,8 @@ interface TransactionItemProps {
 
 const TransactionItem: React.FC<TransactionItemProps> = (props) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={props.onPress}
       style={[
         styles.outer,
         props.status === "PENDING" ? styles.outerPending : styles.outerSuccess,
@@ -63,7 +65,7 @@ const TransactionItem: React.FC<TransactionItemProps> = (props) => {
           </BaseText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

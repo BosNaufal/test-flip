@@ -13,18 +13,18 @@ const Screens = () => {
     <NavigationContainer>
       <TransactionStack.Navigator>
         <TransactionStack.Screen
-          name={"TransactionDetail"}
-          component={TransactionDetailScreen}
-          options={{
-            title: "Detail Transaksi",
-            contentStyle: styles.container,
-          }}
-        />
-        <TransactionStack.Screen
           name={"TransactionList"}
           component={TransactionListScreen}
           options={{
             title: "Daftar Transaksi",
+            contentStyle: styles.container,
+          }}
+        />
+        <TransactionStack.Screen
+          name={"TransactionDetail"}
+          component={TransactionDetailScreen}
+          options={{
+            title: "Detail Transaksi",
             contentStyle: styles.container,
           }}
         />

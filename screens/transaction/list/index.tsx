@@ -1,16 +1,26 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Platform, StatusBar, StyleSheet, View } from "react-native";
-import useTransactionStore, { transactionStoreSelector } from "stores/useTransactionStore";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import { TransactionStackParamsList } from "screens/types";
+import useTransactionStore, {
+  transactionStoreSelector,
+} from "stores/useTransactionStore";
 import THEMES from "themes";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
 import TransactionItem, { transactionStatus } from "./TransactionItem";
 
-interface TransactionListScreenProps {}
+interface TransactionListScreenProps
+  extends NativeStackScreenProps<
+    TransactionStackParamsList,
+    "TransactionList"
+  > {}
 
-const TransactionListScreen: React.FC<TransactionListScreenProps> = () => {
+const TransactionListScreen: React.FC<TransactionListScreenProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const transactionList = useTransactionStore(transactionStoreSelector.getSortedAndFilteredList);
+  const transactionList = useTransactionStore(
+    transactionStoreSelector.getSortedAndFilteredList
+  );
   const loadTransactionList = useTransactionStore(
     (store) => store.loadTransactionList
   );
@@ -20,6 +30,10 @@ const TransactionListScreen: React.FC<TransactionListScreenProps> = () => {
       setIsLoading(false);
     });
   }, []);
+
+  const goToDetail = (id: string) => () => {
+    props.navigation.navigate<"TransactionDetail">("TransactionDetail", { id });
+  };
 
   return (
     <View style={styles.pageWrapper}>
@@ -40,6 +54,7 @@ const TransactionListScreen: React.FC<TransactionListScreenProps> = () => {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TransactionItem
+              onPress={goToDetail(item.id)}
               id={item.id}
               status={item.status as transactionStatus}
               senderBank={item.sender_bank}
