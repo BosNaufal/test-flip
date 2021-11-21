@@ -26,7 +26,7 @@ const TransactionItem: React.FC<TransactionItemProps> = (props) => {
     >
       <View style={styles.mainInfo}>
         <BaseText style={[styles.bankInfo, styles.infoText]}>
-          {props.senderBank} {"->"} {props.recieverBank}
+          {props.senderBank} {"➔"} {props.recieverBank}
         </BaseText>
         <View style={[styles.infoText, styles.reciverName]}>
           {props.status === "PENDING" && <BaseText>{"- "}</BaseText>}

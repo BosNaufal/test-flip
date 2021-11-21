@@ -9,7 +9,7 @@
       "utils/*": ["utils/*"],
       "services/*": ["services/*"],
       "stores/*": ["stores/*"],
-      "themes/*": ["themes/*"],
+      "themes": ["themes"],
       "assets/*": ["assets/*"]
     }
   }
