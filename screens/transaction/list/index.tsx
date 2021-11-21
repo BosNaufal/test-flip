@@ -10,7 +10,7 @@ interface ListTransactionScreenProps {}
 
 const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const transactionList = useTransactionStore(transactionStoreSelector.filteredListSelector);
+  const transactionList = useTransactionStore(transactionStoreSelector.getSortedAndFilteredList);
   const loadTransactionList = useTransactionStore(
     (store) => store.loadTransactionList
   );

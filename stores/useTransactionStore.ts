@@ -1,6 +1,6 @@
 import create from 'zustand'
 import getTransactionList, { TransactionItemServer } from 'services/getTransactionList'
-import { createFilterListByQuery } from 'utils/data'
+import { createFilterListByQuery, createSortingListByDate, createSortingListByString } from 'utils/data'
 
 export enum sortingAnchorOptions {
   NAME_ASC = "Nama A-Z",
@@ -42,17 +42,51 @@ const useTransactionStore = create<ITransactionStore>(set => ({
   }
 }))
 
-export const transactionStoreSelector = {
-  filteredListSelector: (state: ITransactionStore) => {
-    const ANCHOR_KEYS: (keyof TransactionItemServer)[] = [
-      "amount",
-      "sender_bank",
-      "beneficiary_name",
-      "beneficiary_bank",
-    ]
-    const filterListByQuery = createFilterListByQuery(state.transactionList, ANCHOR_KEYS)
-    return filterListByQuery(state.filterQuery)
+
+const getFilteredList = (state: ITransactionStore) => {
+  const ANCHOR_KEYS: (keyof TransactionItemServer)[] = [
+    "amount",
+    "sender_bank",
+    "beneficiary_name",
+    "beneficiary_bank",
+  ]
+  const filterListByQuery = createFilterListByQuery(state.transactionList, ANCHOR_KEYS)
+  return filterListByQuery(state.filterQuery)
+}
+
+const getSortedAndFilteredList = (state: ITransactionStore) => {
+  const filteredList = getFilteredList(state)
+
+  const isSortedByDate = (
+    state.sortingAnchor === sortingAnchorOptions.DATE_ASC
+    || state.sortingAnchor === sortingAnchorOptions.DATE_DESC
+  )
+  if (isSortedByDate) {
+    const sortingType = (
+      state.sortingAnchor === sortingAnchorOptions.DATE_ASC ? "ASC" : "DESC"
+    )
+    const sortList = createSortingListByDate(filteredList, "created_at")
+    return sortList(sortingType)
   }
+
+  const isSortedByName = (
+    state.sortingAnchor === sortingAnchorOptions.NAME_ASC
+    || state.sortingAnchor === sortingAnchorOptions.NAME_DESC
+  )
+  if (isSortedByName) {
+    const sortingType = (
+      state.sortingAnchor === sortingAnchorOptions.NAME_ASC ? "ASC" : "DESC"
+    )
+    const sortList = createSortingListByString(filteredList, "beneficiary_name")
+    return sortList(sortingType)
+  }
+
+  return filteredList
+}
+
+export const transactionStoreSelector = {
+  getFilteredList,
+  getSortedAndFilteredList
 }
 
 
