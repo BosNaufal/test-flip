@@ -7,27 +7,34 @@ import { StyleSheet } from "react-native";
 import TransactionDetailScreen from "./transaction/detail";
 
 const TransactionStack = createNativeStackNavigator();
+const transactionScreens = [
+  {
+    name: "TransactionList",
+    title: "Daftar Transaksi",
+    component: TransactionListScreen,
+  },
+  {
+    name: "TransactionDetail",
+    title: "Detil Transaksi",
+    component: TransactionDetailScreen,
+  },
+];
 
 const Screens = () => {
   return (
     <NavigationContainer>
       <TransactionStack.Navigator>
-        <TransactionStack.Screen
-          name={"TransactionList"}
-          component={TransactionListScreen}
-          options={{
-            title: "Daftar Transaksi",
-            contentStyle: styles.container,
-          }}
-        />
-        <TransactionStack.Screen
-          name={"TransactionDetail"}
-          component={TransactionDetailScreen}
-          options={{
-            title: "Detail Transaksi",
-            contentStyle: styles.container,
-          }}
-        />
+        {transactionScreens.map((screen) => (
+          <TransactionStack.Screen
+            key={screen.name}
+            name={screen.name}
+            component={screen.component}
+            options={{
+              title: screen.title,
+              contentStyle: styles.container,
+            }}
+          />
+        ))}
       </TransactionStack.Navigator>
     </NavigationContainer>
   );
