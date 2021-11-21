@@ -1,9 +1,17 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import BaseText from "components/BaseText";
 import THEMES from "themes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { TransactionStackParamsList } from "screens/types";
+import useTransactionStore, {
+  transactionStoreSelector,
+} from "stores/useTransactionStore";
+import {
+  bankNameToUppercase,
+  convertToRupiahCurrency,
+  ISOStringDateToLocaleDate,
+} from "utils";
 
 interface TransactionDetailScreenProps
   extends NativeStackScreenProps<
@@ -11,38 +19,62 @@ interface TransactionDetailScreenProps
     "TransactionDetail"
   > {}
 
-const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (props) => {
+const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (
+  props
+) => {
+  const transactionId = props.route.params.id;
+  const data = useTransactionStore(
+    transactionStoreSelector.getDetailTransaction(transactionId)
+  );
+
+  const [isShowDetail, setIsShowDetail] = useState(true);
+  const toggleShow = () => {
+    setIsShowDetail(!isShowDetail);
+  };
+
   return (
     <View style={styles.pageWrapper}>
       <View style={styles.header}>
-        <BaseText style={styles.boldText}>ID TRANSAKSI: #{props.route.params.id}</BaseText>
+        <BaseText style={styles.boldText}>
+          ID TRANSAKSI: #{transactionId}
+        </BaseText>
       </View>
       <View style={[styles.header, styles.spaceBetween]}>
         <BaseText style={styles.boldText}>DETAIL TRANSAKSI</BaseText>
-        <BaseText style={styles.toggleText}>Tutup</BaseText>
+        <TouchableOpacity onPress={toggleShow}>
+          <BaseText style={styles.toggleText}>
+            {isShowDetail ? "Tutup" : "Buka"}
+          </BaseText>
+        </TouchableOpacity>
       </View>
-      <View style={styles.infoOuter}>
-        <BaseText style={[styles.bankInfo]}>Permata {"➔"} BNI</BaseText>
+      <View style={[styles.infoOuter, !isShowDetail && styles.hide]}>
+        <BaseText style={[styles.bankInfo]}>
+          {bankNameToUppercase(data.sender_bank)} {"➔"}{" "}
+          {bankNameToUppercase(data.beneficiary_bank)}
+        </BaseText>
         <View style={styles.infoInner}>
           <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>-SYIFA SALSABILA</BaseText>
-            <BaseText>0313955548</BaseText>
+            <BaseText style={styles.titleText}>
+              {data.status === "PENDING" && "- "}
+              {data.beneficiary_name.toUpperCase()}
+            </BaseText>
+            <BaseText>{data.account_number}</BaseText>
           </View>
           <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>-SYIFA SALSABILA</BaseText>
-            <BaseText>0313955548</BaseText>
+            <BaseText style={styles.titleText}>NOMINAL</BaseText>
+            <BaseText>Rp {convertToRupiahCurrency(data.amount)}</BaseText>
           </View>
           <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>-SYIFA SALSABILA</BaseText>
-            <BaseText>0313955548</BaseText>
+            <BaseText style={styles.titleText}>BERITA TRANSFER</BaseText>
+            <BaseText>{data.remark}</BaseText>
           </View>
           <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>-SYIFA SALSABILA</BaseText>
-            <BaseText>0313955548</BaseText>
+            <BaseText style={styles.titleText}>KODE UNIK</BaseText>
+            <BaseText>{data.unique_code}</BaseText>
           </View>
           <View style={styles.infoColumn}>
-            <BaseText style={styles.titleText}>-SYIFA SALSABILA</BaseText>
-            <BaseText>0313955548</BaseText>
+            <BaseText style={styles.titleText}>WAKTU DIBUAT</BaseText>
+            <BaseText>{ISOStringDateToLocaleDate(data.created_at)}</BaseText>
           </View>
         </View>
       </View>
@@ -60,6 +92,9 @@ const styles = StyleSheet.create({
   },
   spaceBetween: {
     justifyContent: "space-between",
+  },
+  hide: {
+    display: "none",
   },
   header: {
     backgroundColor: "#FFF",

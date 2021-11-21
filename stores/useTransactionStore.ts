@@ -14,6 +14,7 @@ interface ITransactionStore {
   sortingAnchor: null | sortingAnchorOptions
   isShowingSortingModal: boolean,
   transactionList: TransactionItemServer[],
+  originalTransactionResponse: { [index: string]: TransactionItemServer } | null,
 
   setFilterQuery: (query: string) => void,
   setSortingAnchor: (anchor: sortingAnchorOptions | null) => void,
@@ -26,6 +27,7 @@ const useTransactionStore = create<ITransactionStore>(set => ({
   sortingAnchor: null,
   isShowingSortingModal: false,
   transactionList: [],
+  originalTransactionResponse: null,
 
   setFilterQuery: (query) => set(() => ({ filterQuery: query })),
   setSortingAnchor: (anchor) => set(() => ({ sortingAnchor: anchor })),
@@ -33,6 +35,7 @@ const useTransactionStore = create<ITransactionStore>(set => ({
 
   loadTransactionList: () => {
     return getTransactionList().then((res) => {
+      set(() => ({ originalTransactionResponse: res }))
       const transactionList = Object.keys(res).map((key) => ({
         ...res[key]
       }))
@@ -84,9 +87,14 @@ const getSortedAndFilteredList = (state: ITransactionStore) => {
   return filteredList
 }
 
+const getDetailTransaction = (id: string) => (state: ITransactionStore) => {
+  return state.originalTransactionResponse![id]
+}
+
 export const transactionStoreSelector = {
   getFilteredList,
-  getSortedAndFilteredList
+  getSortedAndFilteredList,
+  getDetailTransaction
 }
 
 

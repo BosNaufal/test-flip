@@ -35,9 +35,11 @@ const TransactionItem: React.FC<TransactionItemProps> = (props) => {
           {bankNameToUppercase(props.senderBank)} {"➔"}{" "}
           {bankNameToUppercase(props.recieverBank)}
         </BaseText>
-        <View style={[styles.infoText, styles.reciverName]}>
-          {props.status === "PENDING" && <BaseText>{"- "}</BaseText>}
-          <BaseText>{props.recieverName.toUpperCase()}</BaseText>
+        <View style={[styles.infoText]}>
+          <BaseText>
+            {props.status === "PENDING" && "- "}
+            {props.recieverName.toUpperCase()}
+          </BaseText>
         </View>
         <BaseText style={[styles.amountText, styles.infoText]}>
           Rp {convertToRupiahCurrency(props.amount)} {"●"}{" "}
@@ -95,9 +97,6 @@ const styles = StyleSheet.create({
   bankInfo: {
     fontSize: 18,
     fontWeight: "700",
-  },
-  reciverName: {
-    flexDirection: "row",
   },
   amountText: {
     fontSize: 14,
