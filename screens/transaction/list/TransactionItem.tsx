@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import BaseText from "../../../components/Text";
 import THEMES from "../../../themes";
+import { ISOStringDateToLocaleDate } from '../../../utils'
 
 interface TransactionItemProps {
   status: "PENDING" | "SUCCESS";
@@ -30,7 +31,7 @@ const TransactionItem: React.FC<TransactionItemProps> = (props) => {
           <BaseText>{props.recieverName}</BaseText>
         </View>
         <BaseText style={styles.infoText}>
-          Rp{props.amount} * {props.createdAt}
+          Rp{props.amount} {"●"} {ISOStringDateToLocaleDate(props.createdAt)}
         </BaseText>
       </View>
       <View>
