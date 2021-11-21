@@ -29,3 +29,7 @@ export const bankNameToUppercase = (bankName: string) => {
   const capitalized = [firstChar.toUpperCase(), ...restChar].join("")
   return capitalized
 }
+
+export const convertToRupiahCurrency = (amount: number) => {
+  return amount.toLocaleString("id")
+}

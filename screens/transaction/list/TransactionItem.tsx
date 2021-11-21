@@ -2,7 +2,11 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import BaseText from "components/Text";
 import THEMES from "themes";
-import { bankNameToUppercase, ISOStringDateToLocaleDate } from "utils";
+import {
+  bankNameToUppercase,
+  ISOStringDateToLocaleDate,
+  convertToRupiahCurrency,
+} from "utils";
 
 export type transactionStatus = "PENDING" | "SUCCESS";
 
@@ -31,10 +35,11 @@ const TransactionItem: React.FC<TransactionItemProps> = (props) => {
         </BaseText>
         <View style={[styles.infoText, styles.reciverName]}>
           {props.status === "PENDING" && <BaseText>{"- "}</BaseText>}
-          <BaseText>{props.recieverName}</BaseText>
+          <BaseText>{props.recieverName.toUpperCase()}</BaseText>
         </View>
-        <BaseText style={styles.infoText}>
-          Rp{props.amount} {"●"} {ISOStringDateToLocaleDate(props.createdAt)}
+        <BaseText style={[styles.amountText, styles.infoText]}>
+          Rp {convertToRupiahCurrency(props.amount)} {"●"}{" "}
+          {ISOStringDateToLocaleDate(props.createdAt)}
         </BaseText>
       </View>
       <View>
@@ -91,6 +96,9 @@ const styles = StyleSheet.create({
   },
   reciverName: {
     flexDirection: "row",
+  },
+  amountText: {
+    fontSize: 14,
   },
   statusLabel: {
     paddingVertical: 4,
