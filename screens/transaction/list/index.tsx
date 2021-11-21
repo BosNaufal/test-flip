@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import { ActivityIndicator, FlatList, Platform, StatusBar, StyleSheet, View } from "react-native";
 import useTransactionStore, { transactionStoreSelector } from "stores/useTransactionStore";
 import THEMES from "themes";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
 import TransactionItem, { transactionStatus } from "./TransactionItem";
 
-interface ListTransactionScreenProps {}
+interface TransactionListScreenProps {}
 
-const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
+const TransactionListScreen: React.FC<TransactionListScreenProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
   const transactionList = useTransactionStore(transactionStoreSelector.getSortedAndFilteredList);
   const loadTransactionList = useTransactionStore(
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingBottom: 0,
     paddingHorizontal: 10,
+    paddingTop: 10,
   },
   listWrapper: {
     marginTop: 10,
@@ -69,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListTransactionScreen;
+export default TransactionListScreen;
