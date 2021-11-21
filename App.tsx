@@ -6,17 +6,7 @@ import THEMES from "./themes";
 
 export default function App() {
   return (
-    <SafeAreaView
-      style={[
-        styles.container,
-        // need to implement this gist:
-        /* refs: https://gist.github.com/dantman/235833869dab844340ee530c1643a208 */
-        //
-        {
-          paddingVertical: 30,
-        },
-      ]}
-    >
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       <ListTransactionScreen />
       <Text>
@@ -30,5 +20,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEMES.colors.background,
+    paddingVertical: 30,
+    /* refs: https://gist.github.com/dantman/235833869dab844340ee530c1643a208 */
+    paddingTop:
+      Platform.OS === "android" ? (StatusBar as any).currentHeight : 0,
   },
 });
