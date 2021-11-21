@@ -20,3 +20,12 @@ export const ISOStringDateToLocaleDate = (ISOStringDate: string) => {
   const year = date.getFullYear()
   return `${dateNumber} ${ID_MONTHS[month]} ${year}`
 }
+
+export const bankNameToUppercase = (bankName: string) => {
+  const LENGTH_TO_UPPERCASE_ALL = 4 
+  const isConvertAllToUpperCase = bankName.length <= LENGTH_TO_UPPERCASE_ALL
+  if (isConvertAllToUpperCase) return bankName.toUpperCase()
+  const [firstChar, ...restChar] = bankName
+  const capitalized = [firstChar.toUpperCase(), ...restChar].join("")
+  return capitalized
+}
