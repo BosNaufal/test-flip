@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   NativeSyntheticEvent,
   StyleSheet,
@@ -15,10 +15,8 @@ interface SearchbarProps {}
 
 const Searchbar: React.FC<SearchbarProps> = () => {
   const setFilterQuery = useTransactionStore((store) => store.setFilterQuery);
-  const handleSubmit = (
-    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
-  ) => {
-    setFilterQuery(e.nativeEvent.text);
+  const handleChangeQuery = (text: string | undefined) => {
+    setFilterQuery(text || "");
   };
 
   const sortingAnchor = useTransactionStore((store) => store.sortingAnchor);
@@ -31,7 +29,7 @@ const Searchbar: React.FC<SearchbarProps> = () => {
       <TextInput
         style={styles.input}
         placeholder="Cari nama, bank, atau nominal"
-        onSubmitEditing={handleSubmit}
+        onChangeText={handleChangeQuery}
       />
       <TouchableOpacity onPress={showSortingModal}>
         <Text style={styles.sortingButtonText}>
