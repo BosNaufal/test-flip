@@ -4,8 +4,10 @@ import BaseText from "../../../components/Text";
 import THEMES from "../../../themes";
 import { ISOStringDateToLocaleDate } from '../../../utils'
 
+export type transactionStatus = "PENDING" | "SUCCESS"
+
 interface TransactionItemProps {
-  status: "PENDING" | "SUCCESS";
+  status: transactionStatus;
   id: string;
   senderBank: string;
   recieverBank: string;
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 8,
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 8,
   },
   outerPending: {
     borderLeftColor: THEMES.colors.primary,
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderWidth: 2,
-    borderRadius: 8,
+    borderRadius: 6,
   },
   statusLabelSuccess: {
     borderColor: THEMES.colors.success,
