@@ -75,16 +75,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     elevation: 3,
   },
-  optionItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 8,
-  },
-  radio: {
-    marginRight: 10,
-  },
 });
 
 export default SortingModal;

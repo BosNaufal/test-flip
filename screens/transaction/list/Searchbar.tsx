@@ -14,7 +14,6 @@ import useTransactionStore from "../../../stores/useTransactionStore";
 interface SearchbarProps {}
 
 const Searchbar: React.FC<SearchbarProps> = () => {
-  const filterQuery = useTransactionStore((store) => store.filterQuery);
   const setFilterQuery = useTransactionStore((store) => store.setFilterQuery);
   const handleSubmit = (
     e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
