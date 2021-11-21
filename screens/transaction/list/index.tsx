@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
-import useTransactionStore from "stores/useTransactionStore";
+import useTransactionStore, { transactionStoreSelector } from "stores/useTransactionStore";
 import THEMES from "themes";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
@@ -10,7 +10,7 @@ interface ListTransactionScreenProps {}
 
 const ListTransactionScreen: React.FC<ListTransactionScreenProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const transactionList = useTransactionStore((store) => store.transactionList);
+  const transactionList = useTransactionStore(transactionStoreSelector.filteredListSelector);
   const loadTransactionList = useTransactionStore(
     (store) => store.loadTransactionList
   );

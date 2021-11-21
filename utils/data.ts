@@ -18,7 +18,7 @@ export const createFilterListByQuery = <T>(list: T[], anchorKeys?: (keyof T)[]) 
       const currentValue = item[currentKey]
 
       // make sure convert number to string
-      const currentValueString = currentValue.toString().toLowerCase()
+      const currentValueString = (currentValue as any).toString().toLowerCase()
 
       // test it with query. is it matched?
       const isMatchedTheQuery = regex.test(currentValueString)

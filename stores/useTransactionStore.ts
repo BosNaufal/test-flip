@@ -1,5 +1,6 @@
 import create from 'zustand'
 import getTransactionList, { TransactionItemServer } from 'services/getTransactionList'
+import { createFilterListByQuery } from 'utils/data'
 
 export enum sortingAnchorOptions {
   NAME_ASC = "Nama A-Z",
@@ -40,5 +41,13 @@ const useTransactionStore = create<ITransactionStore>(set => ({
     })
   }
 }))
+
+export const transactionStoreSelector = {
+  filteredListSelector: (state: ITransactionStore) => {
+    const filterListByQuery = createFilterListByQuery(state.transactionList)
+    return filterListByQuery(state.filterQuery)
+  } 
+}
+
 
 export default useTransactionStore
