@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
 } from "react-native";
-import useTransactionStore from "../../../stores/useTransactionStore";
+import useTransactionStore from "stores/useTransactionStore";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
 import TransactionItem, { transactionStatus } from "./TransactionItem";

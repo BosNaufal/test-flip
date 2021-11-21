@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
-import THEMES from "../themes";
+import THEMES from "themes";
 
 interface RadioProps {
   style?: StyleProp<ViewStyle>;

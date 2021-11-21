@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import BaseText from "../../../components/Text";
-import THEMES from "../../../themes";
-import { ISOStringDateToLocaleDate } from '../../../utils'
+import BaseText from "components/Text";
+import THEMES from "themes";
+import { ISOStringDateToLocaleDate } from 'utils'
 
 export type transactionStatus = "PENDING" | "SUCCESS"
 

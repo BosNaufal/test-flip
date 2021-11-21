@@ -8,8 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import THEMES from "../../../themes";
-import useTransactionStore from "../../../stores/useTransactionStore";
+import THEMES from "themes";
+import useTransactionStore from "stores/useTransactionStore";
 
 interface SearchbarProps {}
 

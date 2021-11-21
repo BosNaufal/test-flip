@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import useTransactionStore, {
   sortingAnchorOptions,
-} from "../../../stores/useTransactionStore";
+} from "stores/useTransactionStore";
 import SortingOption from "./SortingOption";
 
 interface SortingModalProps {}

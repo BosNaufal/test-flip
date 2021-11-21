@@ -1,5 +1,5 @@
 import create from 'zustand'
-import getTransactionList, { TransactionItemServer } from '../services/getTransactionList'
+import getTransactionList, { TransactionItemServer } from 'services/getTransactionList'
 
 export enum sortingAnchorOptions {
   NAME_ASC = "Nama A-Z",
