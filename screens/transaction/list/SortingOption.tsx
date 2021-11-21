@@ -1,6 +1,7 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import Radio from "components/Radio";
+import BaseText from "components/BaseText";
 
 interface SortingOptionProps {
   onPress: () => void;
@@ -12,7 +13,7 @@ const SortingOption: React.FC<SortingOptionProps> = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={styles.optionItem}>
       <Radio checked={props.checked} style={styles.radio} />
-      <Text style={styles.optionText}>{props.label}</Text>
+      <BaseText style={styles.optionText}>{props.label}</BaseText>
     </TouchableOpacity>
   );
 };

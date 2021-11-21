@@ -1,13 +1,13 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import THEMES from "themes";
 import useTransactionStore from "stores/useTransactionStore";
+import BaseText from "components/BaseText";
 
 interface SearchbarProps {}
 
@@ -30,9 +30,9 @@ const Searchbar: React.FC<SearchbarProps> = () => {
         onChangeText={handleChangeQuery}
       />
       <TouchableOpacity onPress={showSortingModal}>
-        <Text style={styles.sortingButtonText}>
+        <BaseText style={styles.sortingButtonText}>
           {sortingAnchor === null ? "URUTKAN" : sortingAnchor}
-        </Text>
+        </BaseText>
       </TouchableOpacity>
     </View>
   );
