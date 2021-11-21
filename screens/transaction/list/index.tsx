@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import BaseText from "components/BaseText";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 import { TransactionStackParamsList } from "screens/types";
@@ -51,6 +52,11 @@ const TransactionListScreen: React.FC<TransactionListScreenProps> = (props) => {
         <FlatList
           data={transactionList}
           contentContainerStyle={styles.listWrapper}
+          ListEmptyComponent={
+            <BaseText style={styles.notFoundText}>
+              Data Tidak Ditemukan...
+            </BaseText>
+          }
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TransactionItem
@@ -81,7 +87,11 @@ const styles = StyleSheet.create({
   },
   listWrapper: {
     marginTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 70,
+  },
+  notFoundText: {
+    marginTop: 16,
+    textAlign: "center",
   },
 });
 

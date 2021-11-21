@@ -1,3 +1,4 @@
+import { convertMySQLDateToJSDate } from "utils"
 
 export const createFilterListByQuery = <T>(list: T[], anchorKeys?: (keyof T)[]) => (query: string) => {
   // refs: https://stackoverflow.com/questions/19448957/why-is-regexp-test-not-consistent
@@ -60,8 +61,8 @@ export const createSortingListByDate = <T>(list: T[], anchorKey: keyof T) => (so
   return immutableList.sort((a, b) => {
     const aValue = a[anchorKey] as any
     const bValue = b[anchorKey] as any
-    const aTime = (new Date(aValue)).getTime() 
-    const bTime = (new Date(bValue)).getTime() 
+    const aTime = (convertMySQLDateToJSDate(aValue)).getTime() 
+    const bTime = (convertMySQLDateToJSDate(bValue)).getTime() 
     const SORT_ANCHOR = sortingType === "DESC" ? -1 : 1
     return calculateSortingNumber(aTime, bTime) * SORT_ANCHOR
   })

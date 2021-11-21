@@ -10,7 +10,7 @@ import useTransactionStore, {
 import {
   bankNameToUppercase,
   convertToRupiahCurrency,
-  ISOStringDateToLocaleDate,
+  MySqlStringDateToLocaleDate,
 } from "utils";
 import InfoColumn from "./InfoColumn";
 
@@ -68,7 +68,7 @@ const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (
           <InfoColumn title={"KODE UNIK"} content={data.unique_code} />
           <InfoColumn
             title={"WAKTU DIBUAT"}
-            content={ISOStringDateToLocaleDate(data.created_at)}
+            content={MySqlStringDateToLocaleDate(data.created_at)}
           />
         </View>
       </View>

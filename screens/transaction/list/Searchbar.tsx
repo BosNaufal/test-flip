@@ -1,10 +1,8 @@
-import React, { useCallback } from "react";
+import React from "react";
 import {
-  NativeSyntheticEvent,
   StyleSheet,
   Text,
   TextInput,
-  TextInputSubmitEditingEventData,
   TouchableOpacity,
   View,
 } from "react-native";

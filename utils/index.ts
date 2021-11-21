@@ -13,16 +13,25 @@ const ID_MONTHS = [
   "November",
   "Desember"
 ]
-export const ISOStringDateToLocaleDate = (ISOStringDate: string) => {
-  const date = new Date(ISOStringDate)
-  const dateNumber = date.getDate()
-  const month = date.getMonth()
-  const year = date.getFullYear()
-  return `${dateNumber} ${ID_MONTHS[month]} ${year}`
+
+/* refs: https://stackoverflow.com/a/22740336 */
+// Prevent invalid date when it run in not debug mode react native
+export const convertMySQLDateToJSDate = (mySqlDate: string) => {
+  const [originalDateString, originalTime] = mySqlDate.split(" ")
+  const [year, month, dateNumber] = originalDateString.split("-").map((item) => parseInt(item))
+  const [hour, minute] = originalTime.split(":").map((item) => parseInt(item))
+  const date = new Date(year, month, dateNumber, hour, minute)
+  return date
+}
+
+export const MySqlStringDateToLocaleDate = (mySqlDate: string) => {
+  const [originalDateString] = mySqlDate.split(" ")
+  const [year, month, dateNumber] = originalDateString.split("-").map((item) => parseInt(item))
+  return `${dateNumber} ${ID_MONTHS[month - 1]} ${year}`
 }
 
 export const bankNameToUppercase = (bankName: string) => {
-  const LENGTH_TO_UPPERCASE_ALL = 4 
+  const LENGTH_TO_UPPERCASE_ALL = 4
   const isConvertAllToUpperCase = bankName.length <= LENGTH_TO_UPPERCASE_ALL
   if (isConvertAllToUpperCase) return bankName.toUpperCase()
   const [firstChar, ...restChar] = bankName

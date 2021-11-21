@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import BaseText from "components/BaseText";
 import THEMES from "themes";
 import {
   bankNameToUppercase,
-  ISOStringDateToLocaleDate,
+  MySqlStringDateToLocaleDate,
   convertToRupiahCurrency,
 } from "utils";
 
@@ -43,7 +43,7 @@ const TransactionItem: React.FC<TransactionItemProps> = (props) => {
         </View>
         <BaseText style={[styles.amountText, styles.infoText]}>
           Rp {convertToRupiahCurrency(props.amount)} {"●"}{" "}
-          {ISOStringDateToLocaleDate(props.createdAt)}
+          {MySqlStringDateToLocaleDate(props.createdAt)}
         </BaseText>
       </View>
       <View>

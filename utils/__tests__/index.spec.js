@@ -1,5 +1,5 @@
 import {
-  ISOStringDateToLocaleDate,
+  MySqlStringDateToLocaleDate,
   bankNameToUppercase,
   convertToRupiahCurrency,
 } from "utils";
@@ -16,12 +16,12 @@ describe("Utilities Functions", () => {
     });
   });
 
-  describe("ISOStringDateToLocaleDate()", () => {
+  describe("MySqlStringDateToLocaleDate()", () => {
     it("convert correctly", () => {
-      expect(ISOStringDateToLocaleDate("2021-11-16 07:45:20")).toBe(
+      expect(MySqlStringDateToLocaleDate("2021-11-16 07:45:20")).toBe(
         "16 November 2021"
       );
-      expect(ISOStringDateToLocaleDate("2021-1-06 07:45:20")).toBe(
+      expect(MySqlStringDateToLocaleDate("2021-1-06 07:45:20")).toBe(
         "6 Januari 2021"
       );
     });
