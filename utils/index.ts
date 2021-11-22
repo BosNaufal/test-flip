@@ -40,5 +40,32 @@ export const bankNameToUppercase = (bankName: string) => {
 }
 
 export const convertToRupiahCurrency = (amount: number) => {
-  return amount.toLocaleString("id")
+  const COMMA_PER_CHAR_LENGTH = 3
+
+  let amountString = amount.toString()
+  const digitLength = amountString.length
+  const modulusResult = digitLength % COMMA_PER_CHAR_LENGTH
+  const commaCount = (digitLength - modulusResult) / COMMA_PER_CHAR_LENGTH
+
+  let firstGroup: string[] = []
+  if (modulusResult > 0) {
+    // get first group
+    firstGroup = [amountString.substr(0, modulusResult)]
+    // remove first group from amount string
+    amountString = amountString.substr(modulusResult, digitLength)
+  }
+
+  // grouping all digit. 3 item per group
+  let allGroups = []
+  for (let i = 0; i < commaCount; i++) {
+    allGroups.push(
+      amountString.substr(
+        i * COMMA_PER_CHAR_LENGTH,
+        COMMA_PER_CHAR_LENGTH
+      )
+    )
+  }
+
+  const concatGroups = [...firstGroup, ...allGroups]
+  return concatGroups.join(".")
 }

@@ -29,9 +29,13 @@ describe("Utilities Functions", () => {
 
   describe("convertToRupiahCurrency()", () => {
     it("convert correctly", () => {
+      expect(convertToRupiahCurrency(1020030)).toBe("1.020.030");
+      expect(convertToRupiahCurrency(999999999)).toBe("999.999.999");
       expect(convertToRupiahCurrency(10000)).toBe("10.000");
       expect(convertToRupiahCurrency(200)).toBe("200");
       expect(convertToRupiahCurrency(350000)).toBe("350.000");
+      expect(convertToRupiahCurrency(5)).toBe("5");
+      expect(convertToRupiahCurrency(7245)).toBe("7.245");
     });
   });
 });
