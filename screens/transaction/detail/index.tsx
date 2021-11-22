@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Image,
+  Share,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import BaseText from "components/BaseText";
 import THEMES from "themes";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -38,12 +45,38 @@ const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (
     (data.status === "PENDING" ? "- " : "") +
     data.beneficiary_name.toUpperCase();
 
+  // refs: https://reactnative.dev/docs/share
+  // Clipboard API should use community library. 
+  // so we can use Share API that has pretty similar to "copy" action
+  const handleShare = () => {
+    return Share.share({
+      message: `#${transactionId}`,
+    })
+      .then((result) => {
+        if (result.action === Share.sharedAction) {
+          Alert.alert("ID Transaksi berhasil dibagikan");
+        }
+      })
+      .catch(() => {
+        Alert.alert("Opps terjadi kesalahan");
+      });
+  };
+
   return (
     <View style={styles.pageWrapper}>
       <View style={styles.header}>
-        <BaseText style={styles.boldText}>
-          ID TRANSAKSI: #{transactionId}
-        </BaseText>
+        <View style={styles.transactionId}>
+          <BaseText style={styles.boldText}>ID TRANSAKSI: </BaseText>
+          <BaseText selectable style={styles.boldText}>
+            #{transactionId}
+          </BaseText>
+        </View>
+        <TouchableOpacity onPress={handleShare}>
+          <Image
+            style={{ width: 20, height: 20, marginLeft: 4 }}
+            source={require("assets/copy-icon.png")}
+          />
+        </TouchableOpacity>
       </View>
       <View style={[styles.header, styles.spaceBetween]}>
         <BaseText style={styles.boldText}>DETAIL TRANSAKSI</BaseText>
@@ -97,6 +130,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomColor: "#DDD",
     borderBottomWidth: 1,
+  },
+  transactionId: {
+    flexDirection: "row"
   },
   toggleText: {
     color: THEMES.colors.primary,
