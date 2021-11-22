@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Image,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -24,15 +25,23 @@ const Searchbar: React.FC<SearchbarProps> = () => {
 
   return (
     <View style={styles.wrapper}>
+      <Image
+        source={require("assets/search-icon.png")}
+        style={styles.searchIconImage}
+      />
       <TextInput
         style={styles.input}
         placeholder="Cari nama, bank, atau nominal"
         onChangeText={handleChangeQuery}
       />
-      <TouchableOpacity onPress={showSortingModal}>
+      <TouchableOpacity style={styles.sortingOuter} onPress={showSortingModal}>
         <BaseText style={styles.sortingButtonText}>
           {sortingAnchor === null ? "URUTKAN" : sortingAnchor}
         </BaseText>
+        <Image
+          source={require("assets/arrow-down-icon.png")}
+          style={styles.arrowDownIconImage}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -43,8 +52,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     backgroundColor: "#ffffff",
+  },
+  searchIconImage: {
+    height: 20,
+    width: 20,
+    marginRight: 8,
   },
   input: {
     paddingHorizontal: 0,
@@ -53,11 +67,20 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
   },
+  sortingOuter: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   sortingButtonText: {
     fontWeight: "700",
     color: THEMES.colors.primary,
     fontSize: 14,
   },
+  arrowDownIconImage: {
+    height: 8,
+    width: 17,
+    marginLeft: 4,
+  }
 });
 
 export default Searchbar;
