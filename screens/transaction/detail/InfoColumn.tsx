@@ -3,14 +3,14 @@ import { StyleSheet, View } from "react-native";
 import BaseText from "components/BaseText";
 
 interface InfoColumnProps {
-  wider?: boolean;
+  small?: boolean;
   title: string;
   content: string | number;
 }
 
 const InfoColumn: React.FC<InfoColumnProps> = (props) => {
   return (
-    <View style={[styles.infoColumn, props.wider && styles.infoColumnWider]}>
+    <View style={[styles.infoColumn, !props.small && styles.infoColumnWider]}>
       <BaseText style={styles.titleText}>{props.title}</BaseText>
       <BaseText>{props.content}</BaseText>
     </View>

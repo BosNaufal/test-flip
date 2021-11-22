@@ -59,13 +59,14 @@ const TransactionDetailScreen: React.FC<TransactionDetailScreenProps> = (
           {bankNameToUppercase(data.beneficiary_bank)}
         </BaseText>
         <View style={styles.infoInner}>
-          <InfoColumn wider title={reciverName} content={data.account_number} />
+          <InfoColumn title={reciverName} content={data.account_number} />
           <InfoColumn
+            small
             title={"NOMINAL"}
             content={`Rp ${convertToRupiahCurrency(data.amount)}`}
           />
-          <InfoColumn wider title={"BERITA TRANSFER"} content={data.remark} />
-          <InfoColumn title={"KODE UNIK"} content={data.unique_code} />
+          <InfoColumn title={"BERITA TRANSFER"} content={data.remark} />
+          <InfoColumn small title={"KODE UNIK"} content={data.unique_code} />
           <InfoColumn
             title={"WAKTU DIBUAT"}
             content={MySqlStringDateToLocaleDate(data.created_at)}
