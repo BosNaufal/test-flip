@@ -2,35 +2,42 @@ import create from 'zustand'
 import getTransactionList, { TransactionItemServer } from 'services/getTransactionList'
 import { createFilterListByQuery, createSortingListByDate, createSortingListByString } from 'utils/data'
 
-export enum sortingAnchorOptions {
-  NAME_ASC = "Nama A-Z",
-  NAME_DESC = "Nama Z-A",
-  DATE_ASC = "Tanggal Terlama",
-  DATE_DESC = "Tanggal Terbaru",
-}
+export type sortingOptionItem = {
+  anchorKey: keyof TransactionItemServer | null;
+  type: "ASC" | "DESC";
+  label: string;
+};
+
+export const SORTING_OPTIONS: sortingOptionItem[] = [
+  { anchorKey: null, type: "ASC", label: "URUTKAN" },
+  { anchorKey: "beneficiary_name", type: "ASC", label: "Nama A-Z" },
+  { anchorKey: "beneficiary_name", type: "DESC", label: "Nama Z-A" },
+  { anchorKey: "created_at", type: "ASC", label: "Tanggal Terlama" },
+  { anchorKey: "created_at", type: "DESC", label: "Tanggal Terbaru" },
+];
 
 interface ITransactionStore {
-  filterQuery: string,
-  sortingAnchor: null | sortingAnchorOptions
-  isShowingSortingModal: boolean,
-  transactionList: TransactionItemServer[],
-  originalTransactionResponse: { [index: string]: TransactionItemServer } | null,
+  filterQuery: string
+  sortingOption: sortingOptionItem
+  isShowingSortingModal: boolean
+  transactionList: TransactionItemServer[]
+  originalTransactionResponse: { [index: string]: TransactionItemServer } | null
 
-  setFilterQuery: (query: string) => void,
-  setSortingAnchor: (anchor: sortingAnchorOptions | null) => void,
-  setIsShowingSortingModal: (newState: boolean) => void,
+  setFilterQuery: (query: string) => void
+  setSortingOption: (option: sortingOptionItem) => void
+  setIsShowingSortingModal: (newState: boolean) => void
   loadTransactionList: () => Promise<TransactionItemServer[]>
 }
 
 const useTransactionStore = create<ITransactionStore>(set => ({
   filterQuery: "",
-  sortingAnchor: null,
+  sortingOption: SORTING_OPTIONS[0],
   isShowingSortingModal: false,
   transactionList: [],
   originalTransactionResponse: null,
 
   setFilterQuery: (query) => set(() => ({ filterQuery: query })),
-  setSortingAnchor: (anchor) => set(() => ({ sortingAnchor: anchor })),
+  setSortingOption: (sortingOption: sortingOptionItem) => set(() => ({ sortingOption })),
   setIsShowingSortingModal: (newState) => set(() => ({ isShowingSortingModal: newState })),
 
   loadTransactionList: () => {
@@ -59,32 +66,20 @@ const getFilteredList = (state: ITransactionStore) => {
 
 const getSortedAndFilteredList = (state: ITransactionStore) => {
   const filteredList = getFilteredList(state)
+  const { type, anchorKey } = state.sortingOption
+  let sortingFunctionCreator = null
 
-  const isSortedByDate = (
-    state.sortingAnchor === sortingAnchorOptions.DATE_ASC
-    || state.sortingAnchor === sortingAnchorOptions.DATE_DESC
-  )
-  if (isSortedByDate) {
-    const sortingType = (
-      state.sortingAnchor === sortingAnchorOptions.DATE_ASC ? "ASC" : "DESC"
-    )
-    const sortList = createSortingListByDate(filteredList, "created_at")
-    return sortList(sortingType)
-  }
+  const isUnsorted = anchorKey === null
+  if (isUnsorted) return filteredList
 
-  const isSortedByName = (
-    state.sortingAnchor === sortingAnchorOptions.NAME_ASC
-    || state.sortingAnchor === sortingAnchorOptions.NAME_DESC
-  )
-  if (isSortedByName) {
-    const sortingType = (
-      state.sortingAnchor === sortingAnchorOptions.NAME_ASC ? "ASC" : "DESC"
-    )
-    const sortList = createSortingListByString(filteredList, "beneficiary_name")
-    return sortList(sortingType)
-  }
+  const isSortedByDate = anchorKey === "created_at"
+  if (isSortedByDate) sortingFunctionCreator = createSortingListByDate
 
-  return filteredList
+  const isSortedByName = anchorKey === "beneficiary_name"
+  if (isSortedByName) sortingFunctionCreator = createSortingListByString
+
+  const sortList = sortingFunctionCreator!(filteredList, anchorKey!)
+  return sortList(type)
 }
 
 const getDetailTransaction = (id: string) => (state: ITransactionStore) => {

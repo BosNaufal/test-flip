@@ -18,7 +18,7 @@ const Searchbar: React.FC<SearchbarProps> = () => {
     setFilterQuery(text || "");
   };
 
-  const sortingAnchor = useTransactionStore((store) => store.sortingAnchor);
+  const sortingOption = useTransactionStore((store) => store.sortingOption);
   const showSortingModal = useTransactionStore(
     (store) => () => store.setIsShowingSortingModal(true)
   );
@@ -36,7 +36,7 @@ const Searchbar: React.FC<SearchbarProps> = () => {
       />
       <TouchableOpacity style={styles.sortingOuter} onPress={showSortingModal}>
         <BaseText style={styles.sortingButtonText}>
-          {sortingAnchor === null ? "URUTKAN" : sortingAnchor}
+          {sortingOption.label}
         </BaseText>
         <Image
           source={require("assets/arrow-down-icon.png")}
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   sortingOuter: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   sortingButtonText: {
     fontWeight: "700",
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     height: 8,
     width: 17,
     marginLeft: 4,
-  }
+  },
 });
 
 export default Searchbar;

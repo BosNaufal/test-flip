@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Modal, StyleSheet, View } from "react-native";
 import useTransactionStore, {
-  sortingAnchorOptions,
+  sortingOptionItem,
+  SORTING_OPTIONS,
 } from "stores/useTransactionStore";
 import SortingOption from "./SortingOption";
 
@@ -15,23 +16,21 @@ const SortingModal: React.FC<SortingModalProps> = () => {
     (store) => () => store.setIsShowingSortingModal(false)
   );
 
-  const activeOption = useTransactionStore((store) => store.sortingAnchor);
-  const setSortingAnchor = useTransactionStore(
-    (store) => store.setSortingAnchor
+  const isActiveOption = useTransactionStore(
+    (store) => (option: sortingOptionItem) => {
+      return (
+        option.anchorKey === store.sortingOption.anchorKey &&
+        option.type === store.sortingOption.type
+      );
+    }
   );
-  const handleChooseOption = (anchor: sortingAnchorOptions | null) => () => {
-    setSortingAnchor(anchor);
+  const setSortingOption = useTransactionStore(
+    (store) => store.setSortingOption
+  );
+  const handleChooseOption = (option: sortingOptionItem) => () => {
+    setSortingOption(option);
     closeModal();
   };
-
-  const optionsList = useMemo(
-    () =>
-      Object.keys(sortingAnchorOptions).map((key) => {
-        const option: sortingAnchorOptions = (sortingAnchorOptions as any)[key];
-        return option;
-      }),
-    []
-  );
 
   return (
     <Modal
@@ -41,17 +40,12 @@ const SortingModal: React.FC<SortingModalProps> = () => {
     >
       <View style={styles.modalOuter}>
         <View style={styles.modalInner}>
-          <SortingOption
-            checked={activeOption === null}
-            onPress={handleChooseOption(null)}
-            label={"URUTKAN"}
-          />
-          {optionsList.map((option, index) => (
+          {SORTING_OPTIONS.map((option, index) => (
             <SortingOption
               key={index}
-              checked={activeOption === option}
+              checked={isActiveOption(option)}
               onPress={handleChooseOption(option)}
-              label={option}
+              label={option.label}
             />
           ))}
         </View>
