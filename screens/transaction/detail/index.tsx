@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     padding: 16,
     flexDirection: "row",
-    borderBottomColor: "#DDD",
+    borderBottomColor: THEMES.colors.border,
     borderBottomWidth: 1,
   },
   transactionId: {

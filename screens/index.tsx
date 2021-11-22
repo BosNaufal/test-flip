@@ -31,6 +31,8 @@ const Screens = () => {
             component={screen.component}
             options={{
               title: screen.title,
+              headerStyle: styles.header,
+              headerTitleStyle: styles.whiteText,
               contentStyle: styles.container,
             }}
           />
@@ -43,6 +45,12 @@ const Screens = () => {
 export default Screens;
 
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: THEMES.colors.primary,
+  },
+  whiteText: {
+    color: "#FFF",
+  },
   container: {
     flex: 1,
     backgroundColor: THEMES.colors.background,
