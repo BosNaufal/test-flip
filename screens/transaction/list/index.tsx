@@ -1,11 +1,16 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  View,
+} from "react-native";
 import { TransactionStackParamsList } from "screens/types";
 import useTransactionStore, {
   transactionStoreSelector,
 } from "stores/useTransactionStore";
-import THEMES from "themes";
 import Searchbar from "./Searchbar";
 import SortingModal from "./SortingModal";
 import TransactionItem, { transactionStatus } from "./TransactionItem";
@@ -24,11 +29,16 @@ const TransactionListScreen: React.FC<TransactionListScreenProps> = (props) => {
   const loadTransactionList = useTransactionStore(
     (store) => store.loadTransactionList
   );
-  useEffect(() => {
+
+  const handleRefresh = () => {
     setIsLoading(true);
     loadTransactionList().finally(() => {
       setIsLoading(false);
     });
+  };
+
+  useEffect(() => {
+    handleRefresh();
   }, []);
 
   const goToDetail = (id: string) => () => {
@@ -40,17 +50,12 @@ const TransactionListScreen: React.FC<TransactionListScreenProps> = (props) => {
       <Searchbar />
 
       <View>
-        {isLoading && (
-          <ActivityIndicator
-            style={styles.listWrapper}
-            size="large"
-            animating={true}
-            color={THEMES.colors.primary}
-          />
-        )}
         <FlatList
           data={transactionList}
           contentContainerStyle={styles.listWrapper}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={handleRefresh} />
+          }
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <TransactionItem
