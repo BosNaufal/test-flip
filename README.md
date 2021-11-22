@@ -6,7 +6,7 @@ Mohon maaf karena lupa berdiskusi dengan HR interview, saya punya keterbatasan d
 
 ## About
 
-Project ini dibuat menggunakan [Expo](https://docs.expo.dev/).
+Project ini dibuat menggunakan [Expo](https://docs.expo.dev/). Agar saat review pun lebih mudah untuk dijalankan (ga ribet).
 
 ### RUN IT LOCALLY
 
@@ -15,7 +15,7 @@ $ yarn install
 $ yarn start
 ```
 
-Untuk runningnya, silahkan download aplikasi Go-expo pada smartphone.
+Untuk runningnya, silahkan download aplikasi Expo Go pada smartphone. Lalu scan barcode yang tertera pada server.
 
 ## Folder Structures
 
